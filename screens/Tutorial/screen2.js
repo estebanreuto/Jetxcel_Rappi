@@ -3,18 +3,18 @@ import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from
 
 export default function screen1() {
   return (
-    <ImageBackground style={styles.container}>
+    <View style={styles.container}>
       <Image style={styles.img_comida} source={require('./assets/img_pag2.png')} />
       <View style={styles.containerdes}>
         <Text style={styles.title}>Haz tu Pedido</Text>
         <Text style={styles.descrip}>
-        Explora menús de restaurantes cercanos, descubre opciones deliciosas y elige tu próxima comida favorita fácilmente.
+          Selecciona, personaliza y paga tus platos de forma segura, fácil y rápida desde nuestra plataforma.
         </Text>
       </View>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   containerdes: {
-    top: 80
+    top: 50
   },
 
   title: {
