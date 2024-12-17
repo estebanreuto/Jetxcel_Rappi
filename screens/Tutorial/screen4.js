@@ -1,14 +1,14 @@
-import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
-export default function screen1() {
+export default function App() {
   return (
     <ImageBackground style={styles.container}>
-      <Image style={styles.img_comida} source={require('./assets/img_pag2.png')} />
+      <Image style={styles.img_comida} source={require('./assets/img_pag4.png')} />
       <View style={styles.containerdes}>
-        <Text style={styles.title}>Haz tu Pedido</Text>
+        <Text style={styles.title}>Resive Tu Pedido</Text>
         <Text style={styles.descrip}>
-          Selecciona, personaliza y paga tus platos de forma segura, fácil y rápida desde nuestra plataforma.
+        Nuestro equipo de reparto garantiza que tu pedido llegue siempre caliente, fresco y puntual.
         </Text>
       </View>
       <TouchableOpacity style={styles.button}>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   containerdes: {
-    top: 50
+    top: 80
   },
 
   title: {
