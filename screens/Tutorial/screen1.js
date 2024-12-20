@@ -1,25 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-export default function screen2({ navigation }) {
+export default function screen1({ navigation }) {
   return (
     <View style={styles.container}>
-      <Image style={styles.img_comida} source={require('./assets/img_pag2.png')} />
+      <Image style={styles.img_comida} source={require('./assets/Bienvenido.png')} />
       <View style={styles.containerdes}>
-        <Text style={styles.title}>Haz tu Pedido</Text>
+        <Text style={styles.title}>Bienvenido a Jextcel Rappi 👋</Text>
         <Text style={styles.descrip}>
-          Selecciona, personaliza y paga tus platos de forma segura, fácil y rápida desde nuestra plataforma.
+          Haz tu pedido con nuestra aplicación sencillo y fácil de usar.
         </Text>
       </View>
-     <TouchableOpacity
+      <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('screen3')}
+        onPress={() => navigation.navigate('screen2')}
       >
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

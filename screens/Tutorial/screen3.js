@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
-export default function App() {
+export default function App({ navigation }) {
   return (
     <ImageBackground style={styles.container}>
       <Image style={styles.img_comida} source={require('./assets/img_pag3.png')} />
@@ -11,7 +11,10 @@ export default function App() {
           Selecciona, personaliza y paga tus platos de forma segura, fácil y rápida desde nuestra plataforma.
         </Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+     <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('screen4')}
+      >
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
     </ImageBackground>

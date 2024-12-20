@@ -1,23 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-export default function App() {
+export default function Screen1({ navigation }) {
   return (
-    <ImageBackground style={styles.container}>
-      <Image style={styles.img_comida} source={require('./assets/img_pag4.png')} />
+    <View style={styles.container}>
+      <Image style={styles.img_comida} source={require('./assets/Bienvenido.png')} />
       <View style={styles.containerdes}>
-        <Text style={styles.title}>Resive Tu Pedido</Text>
+        <Text style={styles.title}>Bienvenido a Jextcel Rappi 👋</Text>
         <Text style={styles.descrip}>
-        Nuestro equipo de reparto garantiza que tu pedido llegue siempre caliente, fresco y puntual.
+          Haz tu pedido con nuestra aplicación sencillo y fácil de usar.
         </Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('screen2')}
+      >
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
-    </ImageBackground>
+    </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

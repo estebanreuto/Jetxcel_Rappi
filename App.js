@@ -1,8 +1,6 @@
-import React from "react";
-import Screen2 from "./screens/Tutorial/screen2";
+import React from 'react';
+import Navigation from './navegation';
 
 export default function App() {
-  return (
-    <Screen2/>
-  );
+  return <Navigation />;
 }
