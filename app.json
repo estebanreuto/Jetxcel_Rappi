@@ -19,10 +19,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.esteban_reuto.rappijet"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "93cac6bd-0ca3-4e06-a83b-92ec5786fddf"
+      }
+    },
+    "scheme": "rappijet"
   }
 }

@@ -4,8 +4,6 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
-
-
 function login () {
     return (
         <View style={styles.container}>
