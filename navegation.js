@@ -7,7 +7,7 @@ import screen1 from './screens/Tutorial/screen1';
 import screen2 from './screens/Tutorial/screen2';
 import screen3 from './screens/Tutorial/screen3';
 import screen4 from './screens/Tutorial/screen4';
-import Login from './screens/Inicio Seccion - Registro/Login';
+import login from './screens/Inicio Seccion - Registro/Login';
 
 const Stack = createStackNavigator();
 
@@ -36,13 +36,14 @@ export default function Navigation() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isFirstLaunch ? (
           <>
-            <Stack.Screen name="Screen1" component={screen1} />
-            <Stack.Screen name="Screen2" component={screen2} />
-            <Stack.Screen name="Screen3" component={screen3} />
-            <Stack.Screen name="Screen4" component={screen4} />
+            <Stack.Screen name="screen1" component={screen1} />
+            <Stack.Screen name="screen2" component={screen2} />
+            <Stack.Screen name="screen3" component={screen3} />
+            <Stack.Screen name="screen4" component={screen4} />
+            <Stack.Screen name="login" component={login} />
           </>
         ) : (
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="login" component={login} />
         )}
       </Stack.Navigator>
     </NavigationContainer>

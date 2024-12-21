@@ -27,16 +27,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   img_comida: {
     height: '60%',
     width: '100%',
     resizeMode: 'cover',
-    top: 20
+    top: 25
   },
 
   containerdes: {
-    top: 50
+    top: 50,
+    backgroundColor: 'white',
   },
 
   title: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-export default function Screen1({ navigation }) {
+export default function screen4({ navigation }) {
   return (
     <View style={styles.container}>
       <Image style={styles.img_comida} source={require('./assets/Bienvenido.png')} />
@@ -13,7 +13,7 @@ export default function Screen1({ navigation }) {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('screen2')}
+        onPress={() => navigation.navigate('login')}
       >
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
@@ -25,16 +25,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   img_comida: {
     height: '60%',
     width: '100%',
     resizeMode: 'cover',
-    top: 20
+    top: 25
   },
 
   containerdes: {
-    top: 80
+    top: 80,
+    backgroundColor: 'white',
   },
 
   title: {

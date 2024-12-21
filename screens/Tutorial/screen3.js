@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
-export default function App({ navigation }) {
+export default function screen3({ navigation }) {
   return (
     <ImageBackground style={styles.container}>
       <Image style={styles.img_comida} source={require('./assets/img_pag3.png')} />
@@ -26,16 +26,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   img_comida: {
     height: '60%',
     width: '100%',
     resizeMode: 'cover',
-    top: 20
+    top: 25
   },
 
   containerdes: {
-    top: 80
+    top: 80,
+    backgroundColor: 'white',
   },
 
   title: {
