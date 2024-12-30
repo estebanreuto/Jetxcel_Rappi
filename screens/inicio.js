@@ -1,126 +1,326 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, Image, Text, Animated, Dimensions, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView, // Importar ScrollView
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Headerperfil from '../components/header';
 
-const Bienvenidos = () => {
-  const screenHeight = Dimensions.get('window').height;
-  const navigation = useNavigation();
+const ITEM_WIDTH = 388;
+const ITEM_HEIGHT = 220;
 
-  // Crear animaciones para cada burbuja
-  const bubbleAnimations = Array(8)
-    .fill()
-    .map(() => useRef(new Animated.Value(screenHeight)).current);
+const carouselData = [
+  { id: '1', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
+  { id: '2', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
+  { id: '3', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
+];
+
+const secondCarouselData = [
+  { id: '1', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+1' },
+  { id: '2', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+2' },
+  { id: '3', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+3' },
+];
+
+const providersData = [
+  {
+    id: '1',
+    name: 'Pedidos Mono',
+    description: 'Aquí va una descripción muy pequeña sobre el negocio',
+    image: 'https://www.jotform.com/uploads/wreuto2006/form_files/images.675da226bb9835.45996796.jpeg',
+  },
+  {
+    id: '2',
+    name: 'Pedidos Mono',
+    description: 'Aquí va una descripción muy pequeña sobre el negocio',
+    image: 'https://www.jotform.com/uploads/wreuto2006/form_files/images.675da226bb9835.45996796.jpeg',
+  },
+];
+
+const productsData = [
+  {
+    id: '1',
+    name: 'Product Name',
+    price: '$10.00',
+    image: 'https://via.placeholder.com/100',
+  },
+  {
+    id: '2',
+    name: 'Nombre de producto',
+    price: '$10.00',
+    image: 'https://via.placeholder.com/100',
+  },
+];
+
+const Inicio = () => {
+  const [viewMode, setViewMode] = useState('grid'); 
+  const [search, setSearch] = useState('');
+  const flatListRef = useRef(null);
+  const scrollInterval = useRef(null);
+  const currentIndex = useRef(0);
 
   useEffect(() => {
-    bubbleAnimations.forEach((animation, index) => {
-      Animated.loop(
-        Animated.timing(animation, {
-          toValue: -100, // Mover fuera de la pantalla
-          duration: 4000 + index * 500, // Diferente duración para cada burbuja
-          useNativeDriver: true,
-        })
-      ).start();
-    });
-  }, [bubbleAnimations]);
+    scrollInterval.current = setInterval(() => {
+      if (flatListRef.current) {
+        currentIndex.current = (currentIndex.current + 1) % carouselData.length;
+        flatListRef.current.scrollToIndex({ index: currentIndex.current, animated: true });
+      }
+    }, 3000);
 
-  // Función para manejar el botón "Comenzar"
-  const handleStart = async () => {
-    await AsyncStorage.setItem('isFirstLaunch', 'false'); // Registrar que ya se vio la bienvenida
-    navigation.replace('InicioSesion'); // Navegar al inicio de sesión
-  };
+    return () => {
+      clearInterval(scrollInterval.current);
+    };
+  }, []);
 
-  return (
-    <View style={styles.container}>
-      {/* Burbujas animadas */}
-      {bubbleAnimations.map((animation, index) => (
-        <Animated.View
-          key={index}
-          style={[
-            styles.bubble,
-            styles[`bubble${index + 1}`],
-            { transform: [{ translateY: animation }] },
-          ]}
-        />
-      ))}
+  const renderCarouselItem = ({ item }) => (
+    <View style={styles.carouselItemContainer}>
+      <Image source={{ uri: item.image }} style={styles.carouselImage} />
+    </View>
+  );
 
-      {/* Logo e información */}
-      <View style={styles.content}>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <Text style={styles.title}>¡Bienvenido a RappiJet!</Text>
-        <Text style={styles.subtitle}>
-          La mejor plataforma para repartir comidas rápido y seguro.
-        </Text>
-        <TouchableOpacity style={styles.button} onPress={handleStart}>
-          <Text style={styles.buttonText}>Comenzar</Text>
-        </TouchableOpacity>
+  const renderProviderItem = ({ item }) => (
+    <View style={styles.providerCard}>
+      <Image source={{ uri: item.image }} style={styles.providerImage} />
+      <View style={styles.providerDetails}>
+        <Text style={styles.providerName}>{item.name}</Text>
+        <Text style={styles.providerDescription}>{item.description}</Text>
       </View>
     </View>
+  );
+
+  const renderProduct = ({ item }) => (
+    <View style={[styles.productCard, viewMode === 'list' && styles.productCardList]}>
+      <Image source={{ uri: item.image }} style={styles.productImage} />
+      <TouchableOpacity style={styles.favoriteIcon}>
+        <Icon name="favorite-border" size={20} color="#6c757d" />
+      </TouchableOpacity>
+      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.productPrice}>{item.price}</Text>
+      <TouchableOpacity style={styles.cartButton}>
+        <Icon name="shopping-cart" size={20} color="#fff" />
+      </TouchableOpacity>
+    </View>
+  );
+
+  return (
+    <ScrollView style={styles.container}>
+      
+      <Headerperfil />
+
+      <FlatList
+        ref={flatListRef}
+        data={carouselData}
+        renderItem={renderCarouselItem}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        contentContainerStyle={styles.carouselContainer}
+      />
+
+      <Text style={styles.providersTitle}>PROVEEDORES</Text>
+      <FlatList
+        data={providersData}
+        renderItem={renderProviderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.providersList}
+      />
+
+      <Text style={styles.title}>PRODUCTOS MÁS VENDIDOS</Text>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar productos"
+          value={search}
+          onChangeText={(text) => setSearch(text)}
+        />
+        <Icon name="search" size={20} color="#6c757d" style={styles.searchIcon} />
+      </View>
+      <View style={styles.viewToggleContainer}>
+        <TouchableOpacity onPress={() => setViewMode('list')}>
+          <Icon name="view-list" size={24} color={viewMode === 'list' ? '#007bff' : '#6c757d'} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setViewMode('grid')}>
+          <Icon name="view-module" size={24} color={viewMode === 'grid' ? '#007bff' : '#6c757d'} />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={productsData}
+        renderItem={renderProduct}
+        keyExtractor={(item) => item.id}
+        numColumns={viewMode === 'grid' ? 2 : 1}
+        contentContainerStyle={styles.productsList}
+      />
+      <FlatList
+        data={secondCarouselData}
+        renderItem={renderCarouselItem}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        contentContainerStyle={styles.secondCarouselContainer}
+      />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    position: 'relative',
+    backgroundColor: '#f8f9fa',
   },
-  bubble: {
-    position: 'absolute',
-    backgroundColor: '#40ba93',
-    borderRadius: 100,
-    opacity: 0.3,
-  },
-  bubble1: { width: 80, height: 80, top: 50, left: 30 },
-  bubble2: { width: 120, height: 120, top: 100, right: 50 },
-  bubble3: { width: 60, height: 60, bottom: 120, left: 100 },
-  bubble4: { width: 100, height: 100, bottom: 50, right: 70 },
-  bubble5: { width: 90, height: 90, top: 200, left: 150 },
-  bubble6: { width: 70, height: 70, bottom: 200, right: 30 },
-  bubble7: { width: 110, height: 110, top: 250, right: 100 },
-  bubble8: { width: 50, height: 50, bottom: 30, left: 60 },
-
-  content: {
-    flex: 1,
-    justifyContent: 'center',
+  carouselContainer: {
+    marginTop: 5,
     alignItems: 'center',
-    paddingHorizontal: 20,
   },
-  logo: {
-    width: 250,
-    height: 250,
+  secondCarouselContainer: {
+    marginTop: 15,
+    alignItems: 'center',
+    backgroundColor: '#f1f1f1',
     marginBottom: 20,
   },
-  title: {
-    fontSize: 33,
-    fontWeight: 'bold',
-    color: '#40ba93',
-    textAlign: 'center',
-    marginBottom: 11,
-    padding: 10,
+  carouselItemContainer: {
+    width: ITEM_WIDTH,
+    height: ITEM_HEIGHT,
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    borderRadius: 10,
+    marginHorizontal: 0,
+    padding: 5,
+  },
+  carouselImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#333',
-    textAlign: 'center',
-    marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#40ba93',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 6,
-  },
-  buttonText: {
-    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    color: '#000',
+  },
+  providersTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    color: '#000',
+  },
+  providersList: {
+    paddingHorizontal: 16,
+    marginTop: 8,
+  },
+  providerCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 15,
+    padding: 25,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  providerImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 10,
+    marginRight: 20,
+  },
+  providerDetails: {
+    flex: 1,
+  },
+  providerName: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  providerDescription: {
+    fontSize: 13,
+    color: '#6c757d',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    paddingHorizontal: 15,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    marginBottom: 10,
+    width: '91%',
+    left: 15,
+    elevation: 2,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    fontSize: 16,
+  },
+  searchIcon: {
+    marginLeft: 5,
+  },
+  viewToggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 10,
+    marginRight: 13,
+  },
+  productsList: {
+    paddingBottom: 20,
+  },
+  productCard: {
+    flex: 1,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 8,
+    padding: 10,
+    margin: 3,
+    alignItems: 'center',
+    elevation: 2,
+  },
+  productCardList: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  productImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  favoriteIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  productName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  productPrice: {
+    fontSize: 14,
+    color: '#6c757d',
+    marginBottom: 10,
+  },
+  cartButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    padding: 10,
+    width: '90%',
+    alignItems: 'center',
   },
 });
 
-export default Bienvenidos;
+export default Inicio;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 
-const iniciosesion = ({ navigation }) => {
+const login = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [pass, setPassword] = useState('');
 
@@ -177,4 +177,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default iniciosesion;
+export default login;
