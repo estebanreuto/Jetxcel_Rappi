@@ -7,11 +7,14 @@
       <View style={styles.header}>
         <Text style={styles.title}></Text>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="shopping-cart" size={25} color="black" />
+        <TouchableOpacity style={styles.iconButton}>
+        <Icon name="search" size={27} color="#40ba93" style={styles.searchIcon} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-            <Icon name="person" size={25} color="black" />
+            <Icon name="shopping-cart" size={27} color="#40ba93" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Icon name="person" size={27} color="#40ba93" />
           </TouchableOpacity>
         </View>
       </View>

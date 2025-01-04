@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,9 +28,9 @@ const CustomTabBarButton = ({ children, onPress }) => (
         <Tab.Navigator
           initialRouteName="home" 
           screenOptions={{
-            tabBarShowLabel: true,
+            tabBarShowLabel: false,
             tabBarStyle: styles.tabBarStyle,
-            tabBarActiveTintColor: '#000',
+            tabBarActiveTintColor: '#40ba93',
             tabBarInactiveTintColor: '#888',
           }}
         >
@@ -39,7 +39,7 @@ const CustomTabBarButton = ({ children, onPress }) => (
             component={Categorias}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <Icon name="category" color={color} size={size} />
+              <Image source={require('./assets/categoria_icon.png')} style={styles.logo} />
               ),
               headerShown: false,
             }}
@@ -49,12 +49,12 @@ const CustomTabBarButton = ({ children, onPress }) => (
             component={Inicio}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <Icon name="home" color="#fff" size={30} />
+                <Icon name="home" color="#fff" size={35} />
               ),
               headerShown: false,
               tabBarButton: (props) => (
                 <CustomTabBarButton {...props}>
-                  <Icon name="home" color="#fff" size={30} />
+                  <Icon name="home" color="#fff" size={35} />
                 </CustomTabBarButton>
               ),
             }}
@@ -64,7 +64,7 @@ const CustomTabBarButton = ({ children, onPress }) => (
             component={Establecimientos}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <Icon name="store" color={color} size={size} />
+                <Image source={require('./assets/establecimiento_icon.png')} style={styles.logo} />
               ),
               headerShown: false,
             }}
@@ -95,23 +95,29 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     position: 'absolute',
     height: 75,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
     backgroundColor: '#f8f8f8',
     elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centralButtonContainer: {
-    top: -30,
+    top: -25,
     justifyContent: 'center',
     alignItems: 'center',
   },
   centralButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 35,
+    width: 100,
+    height: 70,
+    borderRadius: 20,
     backgroundColor: '#40ba93',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 1,
   },
+  logo: {
+    height: 30,
+    width: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 10
+  }
 });

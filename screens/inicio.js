@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
-  TextInput,
   FlatList,
   StyleSheet,
   TouchableOpacity,
@@ -38,13 +37,25 @@ const providersData = [
 const productsData = [
   {
     id: '1',
-    name: 'Product Name',
+    name: 'Nombre de Producto',
     price: '$10.00',
     image: 'https://via.placeholder.com/100',
   },
   {
     id: '2',
-    name: 'Nombre de producto',
+    name: 'Nombre de Producto',
+    price: '$10.00',
+    image: 'https://via.placeholder.com/100',
+  },
+  {
+    id: '3',
+    name: 'Nombre de Producto',
+    price: '$10.00',
+    image: 'https://via.placeholder.com/100',
+  },
+  {
+    id: '4',
+    name: 'Nombre de Producto',
     price: '$10.00',
     image: 'https://via.placeholder.com/100',
   },
@@ -65,9 +76,7 @@ const Inicio = () => {
       }
     }, 3000);
 
-    return () => {
-      clearInterval(scrollInterval.current);
-    };
+    return () => clearInterval(scrollInterval.current);
   }, []);
 
   const renderCarouselItem = ({ item }) => (
@@ -119,64 +128,48 @@ const Inicio = () => {
   const renderFooter = () => (
     <>
       <Text style={styles.title}>PRODUCTOS MÁS VENDIDOS</Text>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Buscar productos"
-          value={search}
-          onChangeText={(text) => setSearch(text)}
-        />
-        <Icon name="search" size={20} color="#6c757d" style={styles.searchIcon} />
-      </View>
       <View style={styles.viewToggleContainer}>
-        <TouchableOpacity onPress={() => setViewMode('list')}>
-          <Icon name="view-list" size={24} color={viewMode === 'list' ? '#40ba93' : '#6c757d'} />
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => setViewMode('grid')}>
-          <Icon name="view-module" size={24} color={viewMode === 'grid' ? '#40ba93' : '#6c757d'} />
+          <Icon name="view-module" size={30} color={viewMode === 'grid' ? '#40ba93' : '#6c757d'} />
         </TouchableOpacity>
       </View>
       <FlatList
         data={productsData}
         renderItem={renderProduct}
         keyExtractor={(item) => item.id}
-        numColumns={viewMode === 'grid' ? 2 : 2}
+        numColumns={viewMode === 'grid' ? 2 : 1}
         contentContainerStyle={styles.productsList}
-      style={styles.espacio}/>
+        style={styles.espacio}
+      />
     </>
   );
 
   return (
-    <View>
-    <Headerperfil />
-    <FlatList
-      data={providersData}
-      renderItem={renderProviderItem}
-      keyExtractor={(item) => item.id}
-      ListHeaderComponent={renderHeader}
-      ListFooterComponent={renderFooter}
-    />
+    <View style={styles.container}>
+      <Headerperfil />
+      <FlatList
+        data={providersData}
+        renderItem={renderProviderItem}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderFooter}
+      />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#f8f9fa',
   },
   carouselContainer: {
     marginTop: 5,
     alignItems: 'center',
   },
-  secondCarouselContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-    marginBottom: 20,
-  },
   carouselItemContainer: {
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
-    alignItems: 'center',
     backgroundColor: '#f8f9fa',
     borderRadius: 10,
     marginHorizontal: 0,
@@ -187,13 +180,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 10,
   },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    color: '#000',
-  },
   providersTitle: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -201,16 +187,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: '#000',
   },
-  providersList: {
-    paddingHorizontal: 16,
-    marginTop: 8,
-  },
   providerCard: {
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#fff',
     marginBottom: 15,
-    padding: 25,
+    marginHorizontal: 10,
+    padding: 20,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -242,25 +224,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 15,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    width: '91%',
-    left: 15,
-    elevation: 2,
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
-    fontSize: 16,
-  },
-  searchIcon: {
-    marginLeft: 5,
-  },
   viewToggleContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -269,7 +232,7 @@ const styles = StyleSheet.create({
   },
   productsList: {
     paddingBottom: 10,
-    backgroundColor: '#40ba93'
+    backgroundColor: '#40ba93',
   },
   productCard: {
     flex: 1,
@@ -283,6 +246,9 @@ const styles = StyleSheet.create({
   productCardList: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#d1d1d1',
   },
   productImage: {
     width: 90,
@@ -313,8 +279,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   espacio: {
-    marginBottom: 220
-  }
+    marginBottom: 120,
+  },
 });
 
 export default Inicio;
