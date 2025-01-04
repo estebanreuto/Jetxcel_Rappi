@@ -1,64 +1,117 @@
 import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Importa los íconos
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Inicio from './screens/inicio';
+import Categorias from './screens/categorias';
+import Establecimientos from './screens/establecimientos';
 import Login from './screens/iniciosesion'; // Pantalla de inicio de sesión
-import Inicio from './screens/inicio'; // Pantalla de inicio después de iniciar sesión
-import Categorias from './screens/categorias'; // Nueva pantalla de Categorías
-import Establecimientos from './screens/establecimientos'; // Nueva pantalla de Establecimientos
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-// Componente para el menú de navegación con pestañas
-const TabNavigator = () => {
+const CustomTabBarButton = ({ children, onPress }) => (
+  <TouchableOpacity
+    style={styles.centralButtonContainer}
+    onPress={onPress}
+  >
+    <View style={styles.centralButton}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
+
+    const TabNavigator = () => {
+      return (
+        <Tab.Navigator
+          initialRouteName="home" 
+          screenOptions={{
+            tabBarShowLabel: true,
+            tabBarStyle: styles.tabBarStyle,
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#888',
+          }}
+        >
+          <Tab.Screen
+            name="Categorías"
+            component={Categorias}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="category" color={color} size={size} />
+              ),
+              headerShown: false,
+            }}
+          />
+          <Tab.Screen
+            name="home"
+            component={Inicio}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="home" color="#fff" size={30} />
+              ),
+              headerShown: false,
+              tabBarButton: (props) => (
+                <CustomTabBarButton {...props}>
+                  <Icon name="home" color="#fff" size={30} />
+                </CustomTabBarButton>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Establecimientos"
+            component={Establecimientos}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="store" color={color} size={size} />
+              ),
+              headerShown: false,
+            }}
+          />
+        </Tab.Navigator>
+      );
+    };
+    
+
+const MainNavigator = () => {
   return (
-    <Tab.Navigator 
-      initialRouteName="Home" // Establece la pantalla Home como inicial
-      screenOptions={{ headerShown: false }}
-    >
-      <Tab.Screen 
-        name="Categorías" 
-        component={Categorias} 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="category" color={color} size={size} /> // Aquí puedes personalizar el ícono
-          ),
-        }} 
-      />
-      <Tab.Screen 
-        name="Home" 
-        component={Inicio} 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} /> // Aquí puedes personalizar el ícono
-          ),
-        }} 
-      />
-      <Tab.Screen 
-        name="Establecimientos" 
-        component={Establecimientos} 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="store" color={color} size={size} /> // Aquí puedes personalizar el ícono
-          ),
-        }} 
-      />
-    </Tab.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="inicio" component={TabNavigator} />
+    </Stack.Navigator>
   );
 };
 
-// Navegación principal
-const Navigation = () => {
+export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="inicio" component={TabNavigator} />
-      </Stack.Navigator>
+      <MainNavigator />
     </NavigationContainer>
   );
-};
+}
 
-export default Navigation;
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    position: 'absolute',
+    height: 75,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    backgroundColor: '#f8f8f8',
+    elevation: 5,
+  },
+  centralButtonContainer: {
+    top: -30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  centralButton: {
+    width: 80,
+    height: 80,
+    borderRadius: 35,
+    backgroundColor: '#40ba93',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 1,
+  },
+});

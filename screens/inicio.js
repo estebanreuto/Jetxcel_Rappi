@@ -130,10 +130,10 @@ const Inicio = () => {
       </View>
       <View style={styles.viewToggleContainer}>
         <TouchableOpacity onPress={() => setViewMode('list')}>
-          <Icon name="view-list" size={24} color={viewMode === 'list' ? '#007bff' : '#6c757d'} />
+          <Icon name="view-list" size={24} color={viewMode === 'list' ? '#40ba93' : '#6c757d'} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setViewMode('grid')}>
-          <Icon name="view-module" size={24} color={viewMode === 'grid' ? '#007bff' : '#6c757d'} />
+          <Icon name="view-module" size={24} color={viewMode === 'grid' ? '#40ba93' : '#6c757d'} />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -264,20 +264,21 @@ const styles = StyleSheet.create({
   viewToggleContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginBottom: 10,
+    marginBottom: 3,
     marginRight: 13,
   },
   productsList: {
-    paddingBottom: 20,
+    paddingBottom: 10,
+    backgroundColor: '#40ba93'
   },
   productCard: {
     flex: 1,
     backgroundColor: '#f1f1f1',
     borderRadius: 8,
     padding: 10,
-    margin: 3,
+    margin: 4,
     alignItems: 'center',
-    elevation: 2,
+    elevation: 1,
   },
   productCardList: {
     flexDirection: 'row',
@@ -305,15 +306,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cartButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#40ba93',
     borderRadius: 8,
     padding: 10,
     width: '90%',
     alignItems: 'center',
   },
   espacio: {
-    margin: 10,
-    marginBottom: 120
+    marginBottom: 220
   }
 });
 
