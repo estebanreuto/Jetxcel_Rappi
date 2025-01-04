@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ScrollView, // Importar ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Headerperfil from '../components/header';
@@ -19,12 +18,6 @@ const carouselData = [
   { id: '1', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
   { id: '2', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
   { id: '3', image: 'https://i.ytimg.com/vi/eufy-_XhRUE/maxresdefault.jpg' },
-];
-
-const secondCarouselData = [
-  { id: '1', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+1' },
-  { id: '2', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+2' },
-  { id: '3', image: 'https://via.placeholder.com/300x200?text=Carrusel+2+Imagen+3' },
 ];
 
 const providersData = [
@@ -58,7 +51,7 @@ const productsData = [
 ];
 
 const Inicio = () => {
-  const [viewMode, setViewMode] = useState('grid'); 
+  const [viewMode, setViewMode] = useState('grid');
   const [search, setSearch] = useState('');
   const flatListRef = useRef(null);
   const scrollInterval = useRef(null);
@@ -107,11 +100,8 @@ const Inicio = () => {
     </View>
   );
 
-  return (
-    <ScrollView style={styles.container}>
-      
-      <Headerperfil />
-
+  const renderHeader = () => (
+    <>
       <FlatList
         ref={flatListRef}
         data={carouselData}
@@ -122,15 +112,12 @@ const Inicio = () => {
         pagingEnabled
         contentContainerStyle={styles.carouselContainer}
       />
-
       <Text style={styles.providersTitle}>PROVEEDORES</Text>
-      <FlatList
-        data={providersData}
-        renderItem={renderProviderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.providersList}
-      />
+    </>
+  );
 
+  const renderFooter = () => (
+    <>
       <Text style={styles.title}>PRODUCTOS MÁS VENDIDOS</Text>
       <View style={styles.searchContainer}>
         <TextInput
@@ -153,22 +140,25 @@ const Inicio = () => {
         data={productsData}
         renderItem={renderProduct}
         keyExtractor={(item) => item.id}
-        numColumns={viewMode === 'grid' ? 2 : 1}
+        numColumns={viewMode === 'grid' ? 2 : 2}
         contentContainerStyle={styles.productsList}
-      />
-      <FlatList
-        data={secondCarouselData}
-        renderItem={renderCarouselItem}
-        keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        contentContainerStyle={styles.secondCarouselContainer}
-      />
-    </ScrollView>
+      style={styles.espacio}/>
+    </>
+  );
+
+  return (
+    <View>
+    <Headerperfil />
+    <FlatList
+      data={providersData}
+      renderItem={renderProviderItem}
+      keyExtractor={(item) => item.id}
+      ListHeaderComponent={renderHeader}
+      ListFooterComponent={renderFooter}
+    />
+    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f8f9fa',
@@ -321,6 +311,10 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
+  espacio: {
+    margin: 10,
+    marginBottom: 120
+  }
 });
 
 export default Inicio;

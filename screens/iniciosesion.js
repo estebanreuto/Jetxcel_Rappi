@@ -11,7 +11,7 @@ const login = ({ navigation }) => {
         } else {
             try {
                 // Realizamos una solicitud fetch al servidor PHP
-                const response = await fetch('https://rappijet.jetxcel.com/iniciosesion.php', {
+                const response = await fetch('https://rappijet.jetxcel.com/rappi_app/iniciosesion.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -23,9 +23,6 @@ const login = ({ navigation }) => {
                 console.log('Data recibida del servidor:', data);
 
                 if (data.success) {
-                    // Si la respuesta es exitosa, el usuario ha iniciado sesión correctamente
-                    Alert.alert('Inicio de Sesión', 'Inicio de sesión exitoso');
-                    // Redirigir a la pantalla de inicio si la contraseña es correcta
                     navigation.navigate('inicio');
                 } else {
                     // Si hubo un error, mostrar un mensaje
