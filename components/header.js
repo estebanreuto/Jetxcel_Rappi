@@ -1,55 +1,117 @@
-  import React from 'react';
-  import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-  import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Image, StyleSheet, SafeAreaView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-  const Header = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={styles.title}></Text>
-        <View style={styles.iconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-        <Icon name="search" size={27} color="#40ba93" style={styles.searchIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="shopping-cart" size={27} color="#40ba93" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="person" size={27} color="#40ba93" />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+const Header = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation();
+
+  const handleSearch = () => {
+    navigation.navigate('Search', { query: searchQuery });
   };
 
-  const styles = StyleSheet.create({
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      height: 100,
-      backgroundColor: '#fff',
-      // Sombras
-      elevation: 4, // Sombra para Android
-      shadowColor: '#000', // Sombra para iOS
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.5,
-    },
-    title: {
-      color: '#000',
-      fontSize: 18,
-      fontWeight: 'bold',
-      top: 13
-    },
-    iconsContainer: {
-      flexDirection: 'row',
-      top: 15
-    },
-    iconButton: {
-      marginLeft: 15,
-    },
-  });
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* Barra superior de navegación */}
+        <View style={styles.navBar}>
+          <TouchableOpacity style={styles.menuButton} onPress={() => navigation.openDrawer()}>
+            <Ionicons name="menu" size={24} color="#333" />
+          </TouchableOpacity>
 
-  export default Header;
+          <Image
+            source={require('../assets/logo.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+
+          <View style={styles.rightIcons}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Profile')}>
+              <Ionicons name="person-outline" size={24} color="#333" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton}>
+              <Ionicons name="cart-outline" size={24} color="#333" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchIconButton} onPress={handleSearch}>
+            <Ionicons name="search" size={20} color="#666" />
+          </TouchableOpacity>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar"
+            placeholderTextColor="#666"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            onSubmitEditing={handleSearch}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: '#fff',
+  },
+  container: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  navBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  menuButton: {
+    padding: 8,
+  },
+  logo: {
+    height: 30,
+    width: 140,
+  },
+  rightIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 40,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+    height: '100%',
+  },
+  searchRightIcons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchIconButton: {
+    padding: 8,
+    marginLeft: 4,
+  },
+});
+
+export default Header;
+

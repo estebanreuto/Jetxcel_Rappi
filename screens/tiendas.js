@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Header from '../components/header';
 
-const Establecimientos = () => {
+const TiendasScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Pantalla de Establecimientos</Text>
+      <Header />
+      <View style={styles.content}>
+        <Text>Tiendas</Text>
+      </View>
     </View>
   );
 };
@@ -12,14 +16,14 @@ const Establecimientos = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
 
-export default Establecimientos;
+export default TiendasScreen;
+

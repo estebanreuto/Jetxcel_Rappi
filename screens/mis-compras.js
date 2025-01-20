@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Header from '../components/header';
 
-const CategoriasScreen = () => {
+const MisComprasScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.content}>
-        <Text>Categorías</Text>
+        <Text>Mis Compras</Text>
       </View>
     </View>
   );
@@ -25,5 +25,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoriasScreen;
+export default MisComprasScreen;
 
